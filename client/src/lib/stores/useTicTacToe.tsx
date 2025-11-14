@@ -23,6 +23,7 @@ interface TicTacToeState {
   selectCharacter: (character: Character) => void;
   makeMove: (index: number) => void;
   restart: () => void;
+  resetToStart: () => void;
   checkWinner: () => Player | "draw" | null;
   makeAIMove: () => void;
   findSmartMove: (board: CellValue[]) => number;
@@ -214,6 +215,15 @@ export const useTicTacToe = create<TicTacToeState>((set, get) => ({
   },
   
   restart: () => {
+    set({
+      board: Array(9).fill(null),
+      currentTurn: "player1",
+      winner: null,
+      phase: "playing"
+    });
+  },
+  
+  resetToStart: () => {
     set({
       phase: "mode_selection",
       gameMode: null,

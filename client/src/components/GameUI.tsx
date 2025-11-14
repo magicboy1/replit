@@ -14,7 +14,7 @@ const characterIcons: Record<Character, string> = {
 };
 
 export function GameUI() {
-  const { phase, winner, restart, player1Character, player2Character, currentTurn, gameMode, unlockCharacter } = useTicTacToe();
+  const { phase, winner, restart, player1Character, player2Character, currentTurn, gameMode, unlockCharacter, resetToStart } = useTicTacToe();
   const { playSuccess } = useAudio();
   const prevTurnRef = useRef(currentTurn);
 
@@ -81,7 +81,7 @@ export function GameUI() {
   };
 
   const goToStart = () => {
-    window.location.reload();
+    resetToStart();
   };
 
   return (
