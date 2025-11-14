@@ -8,12 +8,14 @@
   }
 
   body {
-    @apply font-sans antialiased bg-background text-foreground;
+    @apply font-sans antialiased;
     margin: 0;
     padding: 0;
     overflow: hidden;
     width: 100vw;
     height: 100vh;
+    background: linear-gradient(135deg, #b8f4d4 0%, #a0e7c9 50%, #88dab8 100%);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   }
 }
 
@@ -27,4 +29,337 @@ canvas {
   width: 100% !important;
   height: 100% !important;
   touch-action: none;
+}
+
+.character-selection-screen {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.character-selection-container {
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
+}
+
+.selection-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #1e7a52;
+  margin-bottom: 3rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  line-height: 1.4;
+}
+
+.character-options {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.character-card {
+  width: 200px;
+  height: 240px;
+  background: white;
+  border: 5px solid #4caf50;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.character-card:hover {
+  transform: scale(1.1) translateY(-10px);
+  box-shadow: 0 12px 30px rgba(76, 175, 80, 0.4);
+  border-color: #2e7d32;
+}
+
+.character-card:active {
+  transform: scale(1.05) translateY(-5px);
+}
+
+.character-icon {
+  font-size: 6rem;
+  line-height: 1;
+}
+
+.character-name {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1e7a52;
+}
+
+.game-board-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 200px);
+  padding: 20px;
+}
+
+.game-board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  max-width: 500px;
+  width: 100%;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 30px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+}
+
+.game-cell {
+  aspect-ratio: 1;
+  background: white;
+  border: 4px solid #4caf50;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+  min-height: 100px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.game-cell.clickable:hover {
+  background: #e8f5e9;
+  transform: scale(1.05);
+  border-color: #2e7d32;
+}
+
+.game-cell.clickable:active {
+  transform: scale(0.98);
+}
+
+.game-cell.filled {
+  cursor: default;
+  background: #f1f8f4;
+}
+
+.game-cell:disabled {
+  cursor: not-allowed;
+}
+
+.cell-icon {
+  line-height: 1;
+  animation: popIn 0.3s ease;
+}
+
+@keyframes popIn {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.game-ui-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.game-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 30px;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  pointer-events: auto;
+}
+
+.player-indicator {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e7a52;
+}
+
+.player-icon {
+  font-size: 2.5rem;
+}
+
+.status-message {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #2e7d32;
+  text-align: center;
+  flex: 1;
+  padding: 0 20px;
+}
+
+.game-controls {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: auto;
+}
+
+.restart-button-small {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 15px 35px;
+  border-radius: 25px;
+  font-size: 1.3rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+}
+
+.restart-button-small:hover {
+  background: #2e7d32;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(76, 175, 80, 0.5);
+}
+
+.restart-button-small:active {
+  transform: translateY(-1px);
+}
+
+.game-over-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.game-over-card {
+  background: white;
+  padding: 50px;
+  border-radius: 40px;
+  text-align: center;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.4s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.game-over-message {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #1e7a52;
+  margin-bottom: 2rem;
+  line-height: 1.4;
+}
+
+.restart-button {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 20px 50px;
+  border-radius: 30px;
+  font-size: 1.6rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4);
+}
+
+.restart-button:hover {
+  background: #2e7d32;
+  transform: scale(1.05);
+  box-shadow: 0 10px 30px rgba(76, 175, 80, 0.5);
+}
+
+.restart-button:active {
+  transform: scale(1);
+}
+
+@media (max-width: 768px) {
+  .selection-title {
+    font-size: 2rem;
+  }
+  
+  .character-card {
+    width: 150px;
+    height: 180px;
+  }
+  
+  .character-icon {
+    font-size: 4rem;
+  }
+  
+  .character-name {
+    font-size: 1.4rem;
+  }
+  
+  .game-board {
+    max-width: 350px;
+    gap: 10px;
+    padding: 15px;
+  }
+  
+  .game-cell {
+    font-size: 3rem;
+    min-height: 80px;
+  }
+  
+  .status-message {
+    font-size: 1.3rem;
+  }
+  
+  .game-over-message {
+    font-size: 2rem;
+  }
+  
+  .restart-button {
+    padding: 15px 35px;
+    font-size: 1.3rem;
+  }
 }
