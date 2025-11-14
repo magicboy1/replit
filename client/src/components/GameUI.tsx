@@ -1,7 +1,6 @@
 import { useTicTacToe, type Character } from "@/lib/stores/useTicTacToe";
 import { useEffect, useRef } from "react";
 import { useAudio } from "@/lib/stores/useAudio";
-import { voiceManager } from "./VoiceManager";
 import Confetti from "react-confetti";
 
 const characterIcons: Record<Character, { icon: string; isImage?: boolean }> = {
@@ -21,12 +20,6 @@ export function GameUI() {
   useEffect(() => {
     if (phase === "playing" && currentTurn !== prevTurnRef.current) {
       prevTurnRef.current = currentTurn;
-      
-      if (currentTurn === "player1") {
-        setTimeout(() => voiceManager.speakYourTurn(), 300);
-      } else if (gameMode === "two_player") {
-        setTimeout(() => voiceManager.speakPlayer2Turn(), 300);
-      }
     }
   }, [currentTurn, phase, gameMode]);
 
@@ -35,18 +28,12 @@ export function GameUI() {
       playSuccess();
       
       if (winner === "player1") {
-        setTimeout(() => voiceManager.speakExcellent(), 500);
-        
         const characters: Character[] = ["cat", "dog", "bear", "lion"];
         const randomChar = characters[Math.floor(Math.random() * characters.length)];
         setTimeout(() => {
           unlockCharacter(randomChar);
         }, 2000);
-      } else {
-        setTimeout(() => voiceManager.speakTryAgain(), 500);
       }
-    } else if (winner === "draw") {
-      setTimeout(() => voiceManager.speakDraw(), 500);
     }
   }, [winner, playSuccess, unlockCharacter]);
 

@@ -6,7 +6,6 @@ import { CharacterSelection } from "./components/CharacterSelection";
 import { GameBoard } from "./components/GameBoard";
 import { GameUI } from "./components/GameUI";
 import { SoundManager } from "./components/SoundManager";
-import { VoiceManager } from "./components/VoiceManager";
 import { FullscreenButton } from "./components/FullscreenButton";
 import { SoundButton } from "./components/SoundButton";
 
@@ -16,7 +15,6 @@ function App() {
   return (
     <>
       <SoundManager />
-      <VoiceManager />
       <FullscreenButton />
       <SoundButton />
       
