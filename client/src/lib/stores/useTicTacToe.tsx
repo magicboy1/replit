@@ -1,23 +1,32 @@
 import { create } from "zustand";
 
-export type Character = "girl" | "robot";
-export type Player = "player" | "ai";
+export type Character = "girl" | "robot" | "cat" | "dog" | "bear" | "lion";
+export type Player = "player1" | "player2";
 export type CellValue = null | Player;
-export type GamePhase = "character_selection" | "playing" | "game_over";
+export type GamePhase = "mode_selection" | "difficulty_selection" | "character_selection" | "playing" | "game_over";
+export type GameMode = "single" | "two_player";
+export type Difficulty = "easy" | "medium" | "hard";
 
 interface TicTacToeState {
   phase: GamePhase;
-  playerCharacter: Character | null;
-  aiCharacter: Character | null;
+  gameMode: GameMode | null;
+  difficulty: Difficulty | null;
+  player1Character: Character | null;
+  player2Character: Character | null;
   board: CellValue[];
   currentTurn: Player;
   winner: Player | "draw" | null;
+  unlockedCharacters: Character[];
   
+  selectMode: (mode: GameMode) => void;
+  selectDifficulty: (difficulty: Difficulty) => void;
   selectCharacter: (character: Character) => void;
   makeMove: (index: number) => void;
   restart: () => void;
   checkWinner: () => Player | "draw" | null;
   makeAIMove: () => void;
+  findSmartMove: (board: CellValue[]) => number;
+  unlockCharacter: (character: Character) => void;
 }
 
 const initialBoard: CellValue[] = Array(9).fill(null);
@@ -29,20 +38,52 @@ const winningCombinations = [
 ];
 
 export const useTicTacToe = create<TicTacToeState>((set, get) => ({
-  phase: "character_selection",
-  playerCharacter: null,
-  aiCharacter: null,
+  phase: "mode_selection",
+  gameMode: null,
+  difficulty: null,
+  player1Character: null,
+  player2Character: null,
   board: initialBoard,
-  currentTurn: "player",
+  currentTurn: "player1",
   winner: null,
+  unlockedCharacters: ["girl", "robot"],
+  
+  selectMode: (mode: GameMode) => {
+    if (mode === "single") {
+      set({ gameMode: mode, phase: "difficulty_selection" });
+    } else {
+      set({ gameMode: mode, phase: "character_selection" });
+    }
+  },
+  
+  selectDifficulty: (difficulty: Difficulty) => {
+    set({ difficulty, phase: "character_selection" });
+  },
   
   selectCharacter: (character: Character) => {
-    const aiChar: Character = character === "girl" ? "robot" : "girl";
-    set({
-      playerCharacter: character,
-      aiCharacter: aiChar,
-      phase: "playing"
-    });
+    const { player1Character, gameMode } = get();
+    
+    if (!player1Character) {
+      set({ player1Character: character });
+      
+      if (gameMode === "single") {
+        const aiChars: Character[] = ["girl", "robot", "cat", "dog", "bear", "lion"];
+        const availableAiChars = aiChars.filter(c => c !== character);
+        const aiChar = availableAiChars[Math.floor(Math.random() * availableAiChars.length)];
+        set({ player2Character: aiChar, phase: "playing" });
+      }
+    } else {
+      if (character !== player1Character) {
+        set({ player2Character: character, phase: "playing" });
+      }
+    }
+  },
+  
+  unlockCharacter: (character: Character) => {
+    const { unlockedCharacters } = get();
+    if (!unlockedCharacters.includes(character)) {
+      set({ unlockedCharacters: [...unlockedCharacters, character] });
+    }
   },
   
   checkWinner: () => {
@@ -63,14 +104,14 @@ export const useTicTacToe = create<TicTacToeState>((set, get) => ({
   },
   
   makeMove: (index: number) => {
-    const { board, currentTurn, winner, phase } = get();
+    const { board, currentTurn, winner, phase, gameMode } = get();
     
-    if (phase !== "playing" || winner || board[index] || currentTurn !== "player") {
+    if (phase !== "playing" || winner || board[index]) {
       return;
     }
     
     const newBoard = [...board];
-    newBoard[index] = "player";
+    newBoard[index] = currentTurn;
     
     set({ board: newBoard });
     
@@ -79,15 +120,19 @@ export const useTicTacToe = create<TicTacToeState>((set, get) => ({
     if (result) {
       set({ winner: result, phase: "game_over" });
     } else {
-      set({ currentTurn: "ai" });
-      setTimeout(() => {
-        get().makeAIMove();
-      }, 500);
+      const nextTurn = currentTurn === "player1" ? "player2" : "player1";
+      set({ currentTurn: nextTurn });
+      
+      if (gameMode === "single" && nextTurn === "player2") {
+        setTimeout(() => {
+          get().makeAIMove();
+        }, 500);
+      }
     }
   },
   
   makeAIMove: () => {
-    const { board, winner, phase } = get();
+    const { board, winner, phase, difficulty } = get();
     
     if (phase !== "playing" || winner) {
       return;
@@ -103,58 +148,40 @@ export const useTicTacToe = create<TicTacToeState>((set, get) => ({
     
     let aiMoveIndex: number;
     
-    for (const combo of winningCombinations) {
-      const [a, b, c] = combo;
-      const cells = [board[a], board[b], board[c]];
-      const emptyInCombo = combo.filter(i => board[i] === null);
+    if (difficulty === "easy") {
+      aiMoveIndex = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
+    } else if (difficulty === "medium") {
+      const shouldPlaySmart = Math.random() > 0.4;
       
-      if (cells.filter(c => c === "ai").length === 2 && emptyInCombo.length === 1) {
-        aiMoveIndex = emptyInCombo[0];
-        const newBoard = [...board];
-        newBoard[aiMoveIndex] = "ai";
-        set({ board: newBoard, currentTurn: "player" });
-        
-        const result = get().checkWinner();
-        if (result) {
-          set({ winner: result, phase: "game_over" });
+      if (shouldPlaySmart) {
+        const smartMove = get().findSmartMove(board);
+        if (smartMove !== -1) {
+          aiMoveIndex = smartMove;
+        } else {
+          aiMoveIndex = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
         }
-        return;
-      }
-    }
-    
-    for (const combo of winningCombinations) {
-      const [a, b, c] = combo;
-      const cells = [board[a], board[b], board[c]];
-      const emptyInCombo = combo.filter(i => board[i] === null);
-      
-      if (cells.filter(c => c === "player").length === 2 && emptyInCombo.length === 1) {
-        aiMoveIndex = emptyInCombo[0];
-        const newBoard = [...board];
-        newBoard[aiMoveIndex] = "ai";
-        set({ board: newBoard, currentTurn: "player" });
-        
-        const result = get().checkWinner();
-        if (result) {
-          set({ winner: result, phase: "game_over" });
-        }
-        return;
-      }
-    }
-    
-    if (board[4] === null) {
-      aiMoveIndex = 4;
-    } else {
-      const corners = [0, 2, 6, 8].filter(i => board[i] === null);
-      if (corners.length > 0) {
-        aiMoveIndex = corners[Math.floor(Math.random() * corners.length)];
       } else {
         aiMoveIndex = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
+      }
+    } else {
+      const smartMove = get().findSmartMove(board);
+      if (smartMove !== -1) {
+        aiMoveIndex = smartMove;
+      } else if (board[4] === null) {
+        aiMoveIndex = 4;
+      } else {
+        const corners = [0, 2, 6, 8].filter(i => board[i] === null);
+        if (corners.length > 0) {
+          aiMoveIndex = corners[Math.floor(Math.random() * corners.length)];
+        } else {
+          aiMoveIndex = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
+        }
       }
     }
     
     const newBoard = [...board];
-    newBoard[aiMoveIndex] = "ai";
-    set({ board: newBoard, currentTurn: "player" });
+    newBoard[aiMoveIndex] = "player2";
+    set({ board: newBoard, currentTurn: "player1" });
     
     const result = get().checkWinner();
     if (result) {
@@ -162,13 +189,39 @@ export const useTicTacToe = create<TicTacToeState>((set, get) => ({
     }
   },
   
+  findSmartMove: (board: CellValue[]) => {
+    for (const combo of winningCombinations) {
+      const [a, b, c] = combo;
+      const cells = [board[a], board[b], board[c]];
+      const emptyInCombo = combo.filter(i => board[i] === null);
+      
+      if (cells.filter(c => c === "player2").length === 2 && emptyInCombo.length === 1) {
+        return emptyInCombo[0];
+      }
+    }
+    
+    for (const combo of winningCombinations) {
+      const [a, b, c] = combo;
+      const cells = [board[a], board[b], board[c]];
+      const emptyInCombo = combo.filter(i => board[i] === null);
+      
+      if (cells.filter(c => c === "player1").length === 2 && emptyInCombo.length === 1) {
+        return emptyInCombo[0];
+      }
+    }
+    
+    return -1;
+  },
+  
   restart: () => {
     set({
-      phase: "character_selection",
-      playerCharacter: null,
-      aiCharacter: null,
+      phase: "mode_selection",
+      gameMode: null,
+      difficulty: null,
+      player1Character: null,
+      player2Character: null,
       board: Array(9).fill(null),
-      currentTurn: "player",
+      currentTurn: "player1",
       winner: null
     });
   }
