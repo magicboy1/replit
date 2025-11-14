@@ -176,10 +176,9 @@ canvas {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: calc(100vh - 100px);
+  min-height: 100vh;
   padding: 1rem;
-  padding-top: 100px;
-  padding-bottom: 2rem;
+  padding-bottom: 6rem;
 }
 
 .game-board {
@@ -255,15 +254,12 @@ canvas {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: clamp(10px, 2vw, 15px) clamp(15px, 3vw, 25px);
+  padding: clamp(8px, 1.5vw, 12px) clamp(12px, 2.5vw, 20px);
   background: var(--teal);
   border-bottom: none;
   box-shadow: none;
   pointer-events: auto;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  position: relative;
   z-index: 100;
 }
 
