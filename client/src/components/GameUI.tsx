@@ -119,36 +119,34 @@ export function GameUI() {
         </div>
       </div>
 
-      <div className="game-ui-overlay" dir="rtl">
-        {phase === "game_over" && (
-          <>
-            {winner && winner !== "draw" && (
-              <Confetti
-                width={window.innerWidth}
-                height={window.innerHeight}
-                recycle={false}
-                numberOfPieces={400}
-                colors={['#48A079', '#E5F26B', '#F46A4E', '#2C3A52', '#FFFFFF']}
-              />
-            )}
-            <div className="game-over-overlay">
-              <div className="game-over-card">
-                <h2 className="game-over-message">{getStatusMessage()}</h2>
-                <div className="game-over-actions">
-                  <button className="game-over-button primary" onClick={restart}>
-                    <span>إعادة اللعب</span>
-                    <span>🔄</span>
-                  </button>
-                  <button className="game-over-button secondary" onClick={goToStart}>
-                    <span>البداية</span>
-                    <span>🏠</span>
-                  </button>
-                </div>
+      {phase === "game_over" && (
+        <>
+          {winner && winner !== "draw" && (
+            <Confetti
+              width={window.innerWidth}
+              height={window.innerHeight}
+              recycle={false}
+              numberOfPieces={400}
+              colors={['#48A079', '#E5F26B', '#F46A4E', '#2C3A52', '#FFFFFF']}
+            />
+          )}
+          <div className="game-over-overlay" dir="rtl">
+            <div className="game-over-card">
+              <h2 className="game-over-message">{getStatusMessage()}</h2>
+              <div className="game-over-actions">
+                <button className="game-over-button primary" onClick={restart}>
+                  <span>إعادة اللعب</span>
+                  <span>🔄</span>
+                </button>
+                <button className="game-over-button secondary" onClick={goToStart}>
+                  <span>البداية</span>
+                  <span>🏠</span>
+                </button>
               </div>
             </div>
-          </>
-        )}
-      </div>
+          </div>
+        </>
+      )}
     </>
   );
 }
