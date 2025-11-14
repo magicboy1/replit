@@ -75,42 +75,49 @@ export function GameUI() {
     return "";
   };
 
-  const getGameOverMessage = () => {
-    const getCharIcon = (character: Character | null, size: string = '60px') => {
-      if (!character) return null;
-      const charData = characterIcons[character];
-      if (charData.isImage) {
-        return <img src={charData.icon} alt="" style={{ width: size, height: size, objectFit: 'contain', display: 'inline-block', verticalAlign: 'middle', margin: '0 0.5rem' }} />;
-      }
-      return <span style={{ fontSize: size, verticalAlign: 'middle', margin: '0 0.3rem' }}>{charData.icon}</span>;
-    };
-
-    if (winner === "player1") {
+  const getWinnerIcon = () => {
+    if (winner === "draw") {
       return (
-        <>
-          رائع! {getCharIcon(player1Character)} فزت بالجولة 🎉
-        </>
+        <div style={{ display: 'flex', gap: '1.5rem', justifyContent: 'center', alignItems: 'center' }}>
+          {player1Character && (() => {
+            const charData = characterIcons[player1Character];
+            if (charData.isImage) {
+              return <img src={charData.icon} alt="" style={{ width: '90px', height: '90px', objectFit: 'contain' }} />;
+            }
+            return <span style={{ fontSize: '90px' }}>{charData.icon}</span>;
+          })()}
+          {player2Character && (() => {
+            const charData = characterIcons[player2Character];
+            if (charData.isImage) {
+              return <img src={charData.icon} alt="" style={{ width: '90px', height: '90px', objectFit: 'contain' }} />;
+            }
+            return <span style={{ fontSize: '90px' }}>{charData.icon}</span>;
+          })()}
+        </div>
       );
+    }
+    
+    const winnerCharacter = winner === "player1" ? player1Character : player2Character;
+    if (!winnerCharacter) return null;
+    
+    const charData = characterIcons[winnerCharacter];
+    if (charData.isImage) {
+      return <img src={charData.icon} alt="" style={{ width: '140px', height: '140px', objectFit: 'contain' }} />;
+    }
+    return <span style={{ fontSize: '140px' }}>{charData.icon}</span>;
+  };
+
+  const getGameOverMessage = () => {
+    if (winner === "player1") {
+      return "رائع! فزت بالجولة 🎉";
     } else if (winner === "player2") {
       if (gameMode === "single") {
-        return (
-          <>
-            {getCharIcon(player2Character)} حاول مرة ثانية! 💪
-          </>
-        );
+        return "حاول مرة ثانية! 💪";
       } else {
-        return (
-          <>
-            {getCharIcon(player2Character)} اللاعب الثاني فاز! 🎉
-          </>
-        );
+        return "اللاعب الثاني فاز! 🎉";
       }
     } else if (winner === "draw") {
-      return (
-        <>
-          {getCharIcon(player1Character, '50px')} تعادل! {getCharIcon(player2Character, '50px')} جرب مرة ثانية 🤝
-        </>
-      );
+      return "تعادل! جرب مرة ثانية 🤝";
     }
     return "";
   };
@@ -172,6 +179,9 @@ export function GameUI() {
           )}
           <div className="game-over-overlay" dir="rtl">
             <div className="game-over-card pulse">
+              <div className="winner-icon-container">
+                {getWinnerIcon()}
+              </div>
               <h2 className="game-over-message animated">{getGameOverMessage()}</h2>
               <div className="game-over-actions">
                 <button className="game-over-button primary" onClick={restart}>

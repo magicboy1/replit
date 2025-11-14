@@ -450,6 +450,28 @@ canvas {
   }
 }
 
+.winner-icon-container {
+  margin-bottom: clamp(1.5rem, 4vw, 2rem);
+  animation: bounceIn 0.7s ease 0.2s both;
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0) rotate(-180deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.15) rotate(10deg);
+  }
+  70% {
+    transform: scale(0.95) rotate(-5deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
 .game-over-message {
   font-size: clamp(1.8rem, 6vw, 3rem);
   font-weight: 800;
