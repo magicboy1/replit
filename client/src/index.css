@@ -38,6 +38,8 @@
 #root {
   width: 100%;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 canvas {
@@ -176,7 +178,7 @@ canvas {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: calc(100vh - 80px);
+  flex: 1;
   padding: 2rem 1rem;
   padding-bottom: 6rem;
 }

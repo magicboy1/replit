@@ -23,10 +23,10 @@ function App() {
       {phase === "character_selection" && <CharacterSelection />}
       
       {(phase === "playing" || phase === "game_over") && (
-        <>
-          <GameBoard />
+        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', width: '100%' }}>
           <GameUI />
-        </>
+          <GameBoard />
+        </div>
       )}
     </>
   );
