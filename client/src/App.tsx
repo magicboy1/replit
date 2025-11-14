@@ -8,6 +8,7 @@ import { GameUI } from "./components/GameUI";
 import { SoundManager } from "./components/SoundManager";
 import { VoiceManager } from "./components/VoiceManager";
 import { FullscreenButton } from "./components/FullscreenButton";
+import { SoundButton } from "./components/SoundButton";
 
 function App() {
   const { phase } = useTicTacToe();
@@ -17,6 +18,7 @@ function App() {
       <SoundManager />
       <VoiceManager />
       <FullscreenButton />
+      <SoundButton />
       
       {phase === "mode_selection" && <ModeSelection />}
       
