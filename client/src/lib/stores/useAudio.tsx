@@ -1,13 +1,11 @@
 import { create } from "zustand";
 
 interface AudioState {
-  backgroundMusic: HTMLAudioElement | null;
   hitSound: HTMLAudioElement | null;
   successSound: HTMLAudioElement | null;
   isMuted: boolean;
   
   // Setter functions
-  setBackgroundMusic: (music: HTMLAudioElement) => void;
   setHitSound: (sound: HTMLAudioElement) => void;
   setSuccessSound: (sound: HTMLAudioElement) => void;
   
@@ -18,12 +16,10 @@ interface AudioState {
 }
 
 export const useAudio = create<AudioState>((set, get) => ({
-  backgroundMusic: null,
   hitSound: null,
   successSound: null,
   isMuted: true,
   
-  setBackgroundMusic: (music) => set({ backgroundMusic: music }),
   setHitSound: (sound) => set({ hitSound: sound }),
   setSuccessSound: (sound) => set({ successSound: sound }),
   
