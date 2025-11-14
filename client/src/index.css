@@ -5,10 +5,10 @@
 @tailwind utilities;
 
 :root {
-  --teal: #2DB880;
-  --navy: #2F3E5C;
-  --orange-red: #E85D4A;
-  --yellow: #F7E84A;
+  --teal: #48A079;
+  --navy: #2C3A52;
+  --orange-red: #F46A4E;
+  --yellow: #E5F26B;
   --white: #FFFFFF;
   --black: #000000;
   --dark-text: #2D3748;
