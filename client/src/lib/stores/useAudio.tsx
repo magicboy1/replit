@@ -18,7 +18,7 @@ interface AudioState {
 export const useAudio = create<AudioState>((set, get) => ({
   hitSound: null,
   successSound: null,
-  isMuted: true,
+  isMuted: false,
   
   setHitSound: (sound) => set({ hitSound: sound }),
   setSuccessSound: (sound) => set({ successSound: sound }),
