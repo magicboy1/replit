@@ -1,4 +1,4 @@
-const CACHE_NAME = 'tic-tac-toe-pwa-v2';
+const CACHE_NAME = 'tic-tac-toe-pwa-v3';
 
 const urlsToCache = [
   '/',
