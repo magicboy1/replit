@@ -1,0 +1,38 @@
+{
+  "name": "لعبة تيك تاك تو",
+  "short_name": "تيك تاك تو",
+  "description": "لعبة تيك تاك تو تفاعلية للأطفال بالعربية",
+  "icons": [
+    {
+      "src": "icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#48A079",
+  "background_color": "#2C3A52",
+  "orientation": "portrait-primary",
+  "dir": "rtl",
+  "lang": "ar"
+}
