@@ -1,9 +1,12 @@
 import { useTicTacToe, type GameMode } from "@/lib/stores/useTicTacToe";
+import { useAudio } from "@/lib/stores/useAudio";
 
 export function ModeSelection() {
   const { selectMode } = useTicTacToe();
+  const { playClick } = useAudio();
 
   const handleModeSelect = (mode: GameMode) => {
+    playClick();
     selectMode(mode);
   };
 

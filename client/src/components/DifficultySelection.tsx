@@ -1,9 +1,12 @@
 import { useTicTacToe, type Difficulty } from "@/lib/stores/useTicTacToe";
+import { useAudio } from "@/lib/stores/useAudio";
 
 export function DifficultySelection() {
   const { selectDifficulty } = useTicTacToe();
+  const { playClick } = useAudio();
 
   const handleDifficultySelect = (difficulty: Difficulty) => {
+    playClick();
     selectDifficulty(difficulty);
   };
 

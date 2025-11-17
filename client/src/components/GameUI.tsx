@@ -14,7 +14,7 @@ const characterIcons: Record<Character, { icon: string; isImage?: boolean }> = {
 
 export function GameUI() {
   const { phase, winner, restart, player1Character, player2Character, currentTurn, gameMode, unlockCharacter, resetToStart } = useTicTacToe();
-  const { playSuccess } = useAudio();
+  const { playSuccess, playClick } = useAudio();
   const prevTurnRef = useRef(currentTurn);
 
   useEffect(() => {
@@ -121,7 +121,13 @@ export function GameUI() {
   };
 
   const goToStart = () => {
+    playClick();
     resetToStart();
+  };
+
+  const handleRestart = () => {
+    playClick();
+    restart();
   };
 
   return (
@@ -142,7 +148,7 @@ export function GameUI() {
         </div>
 
         <div className="header-actions">
-          <button className="header-button" onClick={restart}>
+          <button className="header-button" onClick={handleRestart}>
             <span>إعادة اللعب</span>
             <span>🔄</span>
           </button>
@@ -171,7 +177,7 @@ export function GameUI() {
               </div>
               <h2 className="game-over-message animated">{getGameOverMessage()}</h2>
               <div className="game-over-actions">
-                <button className="game-over-button primary" onClick={restart}>
+                <button className="game-over-button primary" onClick={handleRestart}>
                   <span>إعادة اللعب</span>
                   <span>🔄</span>
                 </button>

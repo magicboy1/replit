@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useAudio } from "@/lib/stores/useAudio";
 
 export function SoundManager() {
-  const { setHitSound, setSuccessSound } = useAudio();
+  const { setHitSound, setSuccessSound, setClickSound } = useAudio();
 
   useEffect(() => {
     const hitAudio = new Audio("/sounds/hit.mp3");
@@ -15,8 +15,13 @@ export function SoundManager() {
     successAudio.preload = "auto";
     setSuccessSound(successAudio);
 
-    console.log("Sound manager initialized");
-  }, [setHitSound, setSuccessSound]);
+    const clickAudio = new Audio("/sounds/hit.mp3");
+    clickAudio.volume = 0.4;
+    clickAudio.preload = "auto";
+    setClickSound(clickAudio);
+
+    console.log("Sound manager initialized with click sounds");
+  }, [setHitSound, setSuccessSound, setClickSound]);
 
   return null;
 }

@@ -1,4 +1,5 @@
 import { useTicTacToe, type Character } from "@/lib/stores/useTicTacToe";
+import { useAudio } from "@/lib/stores/useAudio";
 
 const characterData: Record<Character, { icon: string; name: string; isImage?: boolean }> = {
   girl: { icon: "/characters/girl.png", name: "البنت", isImage: true },
@@ -11,8 +12,10 @@ const characterData: Record<Character, { icon: string; name: string; isImage?: b
 
 export function CharacterSelection() {
   const { selectCharacter, unlockedCharacters, player1Character, gameMode } = useTicTacToe();
+  const { playClick } = useAudio();
 
   const handleCharacterSelect = (character: Character) => {
+    playClick();
     selectCharacter(character);
   };
 
