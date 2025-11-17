@@ -2,12 +2,11 @@ import { useTicTacToe, type Character } from "@/lib/stores/useTicTacToe";
 import { useAudio } from "@/lib/stores/useAudio";
 
 const characterData: Record<Character, { icon: string; name: string; isImage?: boolean }> = {
-  girl: { icon: "/characters/girl.png", name: "البنت", isImage: true },
-  robot: { icon: "/characters/robot.png", name: "الروبوت", isImage: true },
-  cat: { icon: "🐱", name: "القطة" },
-  dog: { icon: "🐶", name: "الكلب" },
-  bear: { icon: "🐻", name: "الدب" },
-  lion: { icon: "🦁", name: "الأسد" }
+  wisal: { icon: "/characters/girl.png", name: "وصال", isImage: true },
+  dhaki: { icon: "/characters/robot.png", name: "ذكي", isImage: true },
+  sahaba: { icon: "/characters/sahaba.png", name: "سحابة", isImage: true },
+  salama: { icon: "/characters/salama.png", name: "سلامة", isImage: true },
+  aman: { icon: "/characters/aman.png", name: "أمان", isImage: true }
 };
 
 export function CharacterSelection() {
@@ -28,8 +27,8 @@ export function CharacterSelection() {
   };
 
   const availableCharacters = gameMode === "two_player" 
-    ? (["girl", "robot"] as Character[])
-    : (["girl", "robot", "lion", "bear"] as Character[]);
+    ? (["wisal", "dhaki", "sahaba", "salama", "aman"] as Character[])
+    : (["wisal", "dhaki", "sahaba", "salama", "aman"] as Character[]);
 
   return (
     <div className="character-selection-screen" dir="rtl">

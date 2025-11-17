@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-export type Character = "girl" | "robot" | "cat" | "dog" | "bear" | "lion";
+export type Character = "wisal" | "dhaki" | "sahaba" | "salama" | "aman";
 export type Player = "player1" | "player2";
 export type CellValue = null | Player;
 export type GamePhase = "mode_selection" | "difficulty_selection" | "character_selection" | "playing" | "game_over";
@@ -47,7 +47,7 @@ export const useTicTacToe = create<TicTacToeState>((set, get) => ({
   board: initialBoard,
   currentTurn: "player1",
   winner: null,
-  unlockedCharacters: ["girl", "robot"],
+  unlockedCharacters: ["wisal", "dhaki", "sahaba", "salama", "aman"],
   
   selectMode: (mode: GameMode) => {
     if (mode === "single") {
@@ -68,7 +68,7 @@ export const useTicTacToe = create<TicTacToeState>((set, get) => ({
       set({ player1Character: character });
       
       if (gameMode === "single") {
-        const aiChars: Character[] = ["girl", "robot", "cat", "dog", "bear", "lion"];
+        const aiChars: Character[] = ["wisal", "dhaki", "sahaba", "salama", "aman"];
         const availableAiChars = aiChars.filter(c => c !== character);
         const aiChar = availableAiChars[Math.floor(Math.random() * availableAiChars.length)];
         set({ player2Character: aiChar, phase: "playing" });

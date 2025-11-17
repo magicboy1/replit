@@ -2,12 +2,11 @@ import { useTicTacToe, type Character } from "@/lib/stores/useTicTacToe";
 import { useAudio } from "@/lib/stores/useAudio";
 
 const characterIcons: Record<Character, { icon: string; isImage?: boolean }> = {
-  girl: { icon: "/characters/girl.png", isImage: true },
-  robot: { icon: "/characters/robot.png", isImage: true },
-  cat: { icon: "🐱" },
-  dog: { icon: "🐶" },
-  bear: { icon: "🐻" },
-  lion: { icon: "🦁" }
+  wisal: { icon: "/characters/girl.png", isImage: true },
+  dhaki: { icon: "/characters/robot.png", isImage: true },
+  sahaba: { icon: "/characters/sahaba.png", isImage: true },
+  salama: { icon: "/characters/salama.png", isImage: true },
+  aman: { icon: "/characters/aman.png", isImage: true }
 };
 
 export function GameBoard() {

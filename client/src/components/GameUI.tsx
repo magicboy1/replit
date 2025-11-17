@@ -4,12 +4,11 @@ import { useAudio } from "@/lib/stores/useAudio";
 import Confetti from "react-confetti";
 
 const characterIcons: Record<Character, { icon: string; isImage?: boolean }> = {
-  girl: { icon: "/characters/girl.png", isImage: true },
-  robot: { icon: "/characters/robot.png", isImage: true },
-  cat: { icon: "🐱" },
-  dog: { icon: "🐶" },
-  bear: { icon: "🐻" },
-  lion: { icon: "🦁" }
+  wisal: { icon: "/characters/girl.png", isImage: true },
+  dhaki: { icon: "/characters/robot.png", isImage: true },
+  sahaba: { icon: "/characters/sahaba.png", isImage: true },
+  salama: { icon: "/characters/salama.png", isImage: true },
+  aman: { icon: "/characters/aman.png", isImage: true }
 };
 
 export function GameUI() {
@@ -28,7 +27,7 @@ export function GameUI() {
       playSuccess();
       
       if (winner === "player1") {
-        const characters: Character[] = ["cat", "dog", "bear", "lion"];
+        const characters: Character[] = ["sahaba", "salama", "aman"];
         const randomChar = characters[Math.floor(Math.random() * characters.length)];
         setTimeout(() => {
           unlockCharacter(randomChar);
