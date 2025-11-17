@@ -3,12 +3,12 @@ import { useEffect, useRef } from "react";
 import { useAudio } from "@/lib/stores/useAudio";
 import Confetti from "react-confetti";
 
-const characterIcons: Record<Character, { icon: string; isImage?: boolean }> = {
-  wisal: { icon: "/characters/girl.png", isImage: true },
-  dhaki: { icon: "/characters/robot.png", isImage: true },
-  sahaba: { icon: "/characters/sahaba.png", isImage: true },
-  salama: { icon: "/characters/salama.png", isImage: true },
-  aman: { icon: "/characters/aman.png", isImage: true }
+const characterIcons: Record<Character, { icon: string; name: string; isImage?: boolean }> = {
+  wisal: { icon: "/characters/girl.png", name: "وصال", isImage: true },
+  dhaki: { icon: "/characters/robot.png", name: "ذكي", isImage: true },
+  sahaba: { icon: "/characters/sahaba.png", name: "سحابة", isImage: true },
+  salama: { icon: "/characters/salama.png", name: "سلامة", isImage: true },
+  aman: { icon: "/characters/aman.png", name: "أمان", isImage: true }
 };
 
 export function GameUI() {
@@ -43,20 +43,24 @@ export function GameUI() {
   const getStatusMessage = () => {
     if (phase === "game_over") {
       if (winner === "player1") {
-        return "رائع! فزت بالجولة 🎉";
+        const charName = player1Character ? characterIcons[player1Character].name : "";
+        return gameMode === "single" ? "رائع! فزت بالجولة 🎉" : `${charName} فاز! 🎉`;
       } else if (winner === "player2") {
+        const charName = player2Character ? characterIcons[player2Character].name : "";
         if (gameMode === "single") {
           return "حاول مرة ثانية! 💪";
         } else {
-          return "اللاعب الثاني فاز! 🎉";
+          return `${charName} فاز! 🎉`;
         }
       } else if (winner === "draw") {
         return "تعادل! جرب مرة ثانية 🤝";
       }
     } else if (currentTurn === "player1") {
-      return gameMode === "two_player" ? "دور اللاعب الأول! 👆" : "دورك! 👆";
+      const charName = player1Character ? characterIcons[player1Character].name : "";
+      return gameMode === "two_player" ? `دور ${charName}! 👆` : "دورك! 👆";
     } else {
-      return gameMode === "two_player" ? "دور اللاعب الثاني! 👆" : "دور الروبوت... 🤔";
+      const charName = player2Character ? characterIcons[player2Character].name : "";
+      return gameMode === "two_player" ? `دور ${charName}! 👆` : `دور ${charName}... 🤔`;
     }
     return "";
   };
@@ -95,12 +99,14 @@ export function GameUI() {
 
   const getGameOverMessage = () => {
     if (winner === "player1") {
-      return "رائع! فزت بالجولة 🎉";
+      const charName = player1Character ? characterIcons[player1Character].name : "";
+      return gameMode === "single" ? "رائع! فزت بالجولة 🎉" : `${charName} فاز! 🎉`;
     } else if (winner === "player2") {
+      const charName = player2Character ? characterIcons[player2Character].name : "";
       if (gameMode === "single") {
         return "حاول مرة ثانية! 💪";
       } else {
-        return "اللاعب الثاني فاز! 🎉";
+        return `${charName} فاز! 🎉`;
       }
     } else if (winner === "draw") {
       return "تعادل! جرب مرة ثانية 🤝";

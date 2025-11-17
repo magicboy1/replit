@@ -20,9 +20,10 @@ export function CharacterSelection() {
 
   const getTitle = () => {
     if (!player1Character) {
-      return gameMode === "two_player" ? "اللاعب الأول: اختر شخصيتك!" : "اختر شخصيتك!";
+      return "اختر شخصيتك!";
     } else {
-      return "اللاعب الثاني: اختر شخصيتك!";
+      const player1Name = characterData[player1Character].name;
+      return `${player1Name} اختار! دورك... اختر شخصيتك!`;
     }
   };
 
