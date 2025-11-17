@@ -142,8 +142,10 @@ export function GameUI() {
           <div className="player-icon">{getCurrentPlayerIcon()}</div>
           <span className="player-label">
             {gameMode === "two_player" 
-              ? (currentTurn === "player1" ? "اللاعب 1" : "اللاعب 2")
-              : (currentTurn === "player1" ? "أنت" : "الروبوت")
+              ? (currentTurn === "player1" 
+                  ? (player1Character ? characterIcons[player1Character].name : "")
+                  : (player2Character ? characterIcons[player2Character].name : ""))
+              : (currentTurn === "player1" ? "أنت" : (player2Character ? characterIcons[player2Character].name : ""))
             }
           </span>
         </div>
